@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let letters = "XO"
+    let letters = "XOXOXOXOXO"
     var counter = 0
     var currentLetter:Character!
     var labelArray = [UILabel]()
@@ -31,7 +31,9 @@ class ViewController: UIViewController {
         
         override func viewDidLoad() {
             super.viewDidLoad()
+            
             getCurrentLetter()
+            
             labelArray = [label1, label2, label3, label4, label5, label6, label7, label8, label9]
             
             
@@ -50,6 +52,13 @@ class ViewController: UIViewController {
             {
                 label.text = String(currentLetter)
             }
+            if label.text == ""
+            {
+                label.text = String(currentLetter)
+                
+            }
+     
+          
     }
     
         
@@ -57,33 +66,37 @@ class ViewController: UIViewController {
             
             counter++
             
-           if counter == 2
+           if counter == 9
             {
-                reset()
+                checkForWinner()
            }
-            
+        
            getCurrentLetter()
         
             
-        }
+    }
+    
+    
         
         func getCurrentLetter() {
-            let myRange = Range<String.Index>(start: letters.startIndex.advancedBy (counter), end: letters.startIndex.advancedBy(counter + 1))
+            let myRange = Range<String.Index>(start: letters.startIndex.advancedBy (counter), end: letters.startIndex.advancedBy(counter+1))
             
             CurrentLetterLabel.text = letters.substringWithRange(myRange)
            currentLetter = Character(letters.substringWithRange(myRange))
         }
-        
-        func reset()
+    
+    
+    func presentWinningAlert(winner:String)
         {
-            counter = 0
-            
-            let alert = UIAlertController(title: "Resetting Counter", message: "Press Ok To Reset", preferredStyle: UIAlertControllerStyle.Alert)
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: clearLabels)
-            alert.addAction(okAction)
-            presentViewController(alert, animated: true, completion: nil)
+        counter = 0
+        
+        let alert = UIAlertController(title: "\(winner) Won!", message: "Press Ok To play again!", preferredStyle: UIAlertControllerStyle.Alert)
+        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Cancel, handler: clearLabels)
+        alert.addAction(okAction)
+        presentViewController(alert, animated: true, completion: nil)
             
         }
+    
     
         func clearLabels(action: UIAlertAction)
         {
@@ -97,6 +110,90 @@ class ViewController: UIViewController {
             label8.text = ""
             label9.text = ""
         }
+    
+    
+    func checkForWinner()
+        
+    {
+        
+        
+        if label1.text == label2.text && label2.text == label3.text && label3.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label3.text!)")
+            
+         
+        }
+            
+        else if label4.text == label5.text && label5.text == label6.text && label6.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label6.text!)")
+            
+        }
+            
+        else if label7.text == label8.text && label8.text == label9.text && label9.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label9.text!)")
+            
+        }
+            
+        else if label1.text == label4.text && label4.text == label7.text && label7.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label7.text!)")
+            
+        }
+            
+        else if label2.text == label5.text && label5.text == label8.text && label8.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label8.text!)")
+            
+        }
+            
+        else if label3.text == label6.text && label6.text == label9.text && label9.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label9.text!)")
+            
+        }
+            
+        else if label1.text == label5.text && label5.text == label9.text && label9.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label9.text!)")
+            
+        }
+            
+        else if label3.text == label5.text && label5.text == label7.text && label7.text != ""
+            
+        {
+            
+            presentWinningAlert("\(label7.text!)")
+            
+        }
+        
+        
+        
+        if counter == 9
+            
+        {
+            
+            
+            presentWinningAlert("No One")
+            
+        }
+        
+    }
 
     
     }
